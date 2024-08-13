@@ -1,17 +1,41 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import ProductCard from '../ProductCard/ProductCard'
 
-const ProductDetails = () => {
+const ProductDetails = ({setSelectedProduct}) => {
+  
+  const [productData,setProductData] = useState([]);
+
+
+  const getProductData = () =>{
+    fetch('https://fakestoreapi.com/products').then((response)=>{
+      return response.json();
+    }).then((data)=>{
+      setProductData(data);
+      
+    }).catch((error)=>{
+      console.log("error",error);
+      
+    })
+  }
+
+  useEffect(()=>{
+    getProductData();
+  },[])
+
+  useEffect(()=>{
+    // console.log("Product Data::",productData);
+
+  },[productData])
+
   return (
     <div>
         <h2 style={{textAlign:'center'}}>NEW ARRIVALS</h2>
         <div style={{display:'grid',  gridTemplateColumns: "auto auto auto auto",  padding:'25px 120px', gap:'20px'}}>
-            <ProductCard/>
-            <ProductCard/>
-            <ProductCard/>
-            <ProductCard/>
-            <ProductCard/>
+          {productData.map((productItem)=>{
+            return <ProductCard productValue={productItem} setSelectedProduct={setSelectedProduct}/>
+          })}
         </div>
+
     </div>
   )
 }

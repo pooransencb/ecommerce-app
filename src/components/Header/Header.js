@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./header.css";
 import { images } from "../../utils/constants/images";
 
-const Header = () => {
+const Header = ({setSelectedProduct}) => {
   // 1. state number 2. state set function 3. assign value in useState
   const [showOfferHeader, setShowOfferHeader] = useState(true);
 
@@ -47,6 +47,7 @@ const Header = () => {
         }}
       >
         <img
+        onClick={()=>{setSelectedProduct(undefined)}}
           style={{ height: "24px", width: "160px", objectFit: "contain" }}
           src={images.logoImage}
           alt="logo-image"
