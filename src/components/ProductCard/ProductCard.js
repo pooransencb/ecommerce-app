@@ -2,6 +2,10 @@ import React, { useEffect } from "react";
 
 const ProductCard = ({productValue,setSelectedProduct}) => {
 
+  useEffect(()=>{
+    // console.log("Testing::",productValue);
+  },[])
+
   return (
     <div style={{display:"flex",flexDirection:'column'}} onClick={()=>{
       setSelectedProduct(productValue);
