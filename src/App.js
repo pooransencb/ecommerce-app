@@ -5,10 +5,12 @@ import Footer from "./components/Footer/Footer";
 
 const App = () => {
   const [selectedProduct,setSelectedProduct] = useState();
+  const [selectedQuantity,setSelectedQuantity] = useState(0);
+  const [showCart,setShowCart] = useState(false);
   return (
     <div>
-      <Header setSelectedProduct={setSelectedProduct}/>
-      <Home selectedProduct={selectedProduct} setSelectedProduct={setSelectedProduct}/>
+      <Header setSelectedProduct={setSelectedProduct} selectedQuantity={selectedQuantity} setShowCart={setShowCart}/>
+      <Home selectedProduct={selectedProduct} setSelectedProduct={setSelectedProduct} setSelectedQuantity={setSelectedQuantity} selectedQuantity={selectedQuantity} showCart={showCart}/>
       <Footer/>
     </div>
   );

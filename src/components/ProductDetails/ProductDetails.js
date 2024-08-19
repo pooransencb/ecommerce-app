@@ -8,8 +8,11 @@ const ProductDetails = ({setSelectedProduct}) => {
 
   const getProductData = () =>{
     fetch('https://fakestoreapi.com/products').then((response)=>{
+      console.log("Response::",response);
+      
       return response.json();
     }).then((data)=>{
+      console.log("Data::",data);
       setProductData(data);
       
     }).catch((error)=>{
@@ -34,6 +37,9 @@ const ProductDetails = ({setSelectedProduct}) => {
           {productData.map((productItem)=>{
             return <ProductCard productValue={productItem} setSelectedProduct={setSelectedProduct}/>
           })}
+          {/* {productData.map((productItem)=>{
+            return <ProductCard productValue={productItem} setSelectedProduct={setSelectedProduct}/>
+          })} */}
         </div>
 
     </div>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./header.css";
 import { images } from "../../utils/constants/images";
 
-const Header = ({setSelectedProduct}) => {
+const Header = ({ setSelectedProduct, selectedQuantity, setShowCart }) => {
   // 1. state number 2. state set function 3. assign value in useState
   const [showOfferHeader, setShowOfferHeader] = useState(true);
 
@@ -47,7 +47,10 @@ const Header = ({setSelectedProduct}) => {
         }}
       >
         <img
-        onClick={()=>{setSelectedProduct(undefined)}}
+          onClick={() => {
+            setSelectedProduct(undefined);
+            setShowCart(false);
+          }}
           style={{ height: "24px", width: "160px", objectFit: "contain" }}
           src={images.logoImage}
           alt="logo-image"
@@ -60,20 +63,28 @@ const Header = ({setSelectedProduct}) => {
           <li>Brands</li>
         </div>
 
-        <div style={{background:'#F0F0F0',
-              borderRadius: "25px", padding:'10px',display:'flex', alignItems:'center', paddingLeft:'20px'}}>
-        <img
+        <div
+          style={{
+            background: "#F0F0F0",
+            borderRadius: "25px",
+            padding: "10px",
+            display: "flex",
+            alignItems: "center",
+            paddingLeft: "20px",
+          }}
+        >
+          <img
             src={images.search}
             style={{ height: "20px", width: "20px", objectFit: "contain" }}
             alt="search-icon"
           />
           <input
-          className="seach-input-box"
-          placeholder="Search for products..."
+            className="seach-input-box"
+            placeholder="Search for products..."
             type="text"
             style={{
-              paddingLeft:'10px',
-              background:'transparent',
+              paddingLeft: "10px",
+              background: "transparent",
               width: "400px",
               border: "none",
             }}
@@ -81,11 +92,32 @@ const Header = ({setSelectedProduct}) => {
         </div>
 
         <div style={{ display: "flex", gap: "10px" }}>
-          <img
-            src={images.cartImage}
-            style={{ height: "20px", width: "20px", objectFit: "contain" }}
-            alt="cart-image"
-          />
+          <div style={{ position: "relative", cursor:'pointer' }} onClick={()=>{setShowCart(true)}}>
+            <span
+              style={{
+                position: "absolute",
+                right: "-5px",
+                bottom: "12px",
+                background: "black",
+                color: "white",
+                width: "20px",
+                height:'20px',
+                borderRadius: "25px",
+                fontSize: "12px",
+                display:'flex',
+                alignItems:'center',
+                justifyContent:'center',
+                fontWeight: "bold",
+              }}
+            >
+              {selectedQuantity}
+            </span>
+            <img
+              src={images.cartImage}
+              style={{ height: "20px", width: "20px", objectFit: "contain" }}
+              alt="cart-image"
+            />
+          </div>
           <img
             src={images.profileImage}
             style={{ height: "20px", width: "20px", objectFit: "contain" }}
