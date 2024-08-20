@@ -1,14 +1,54 @@
 import React, { useEffect } from "react";
 import "./ProductDescription.css";
 
-const ProductDescription = ({ selectedProduct, setSelectedQuantity,selectedQuantity }) => {
+const ProductDescription = ({
+  selectedProduct,
+  setSelectedQuantity,
+  selectedQuantity,
+  setCartProduct,
+  cartProduct,
+}) => {
   useEffect(() => {
     console.log("ProductData::", selectedProduct);
   }, [selectedProduct]);
 
-  const handleAddToCart = () =>{
-    setSelectedQuantity(selectedQuantity+1);
-  }
+  const handleAddToCart = () => {
+    setSelectedQuantity(selectedQuantity + 1);
+
+    const checkProductAlreadyInCart = cartProduct.find(
+      (item) => selectedProduct.id === item.id
+    );
+
+    if (checkProductAlreadyInCart) {
+      const updateCartData = cartProduct.map((item)=>{
+        if(selectedProduct.id===item.id){
+          return {
+            ...item,
+            quantity: item.quantity + 1
+          }
+        }else{
+          return item;
+        }
+      });
+      setCartProduct(updateCartData);
+    } else {
+      setCartProduct([
+        ...cartProduct,
+        {
+          ...selectedProduct,
+          quantity: 1,
+        },
+      ]);
+    }
+    console.log("checkProductAlreadyInCart::", checkProductAlreadyInCart);
+
+    // const updatedCartProduct = cartProduct
+  };
+
+  useEffect(() => {
+    console.log("cartProduct::", cartProduct);
+  }, [cartProduct]);
+
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
       <div style={{ display: "flex", padding: "50px", width: "650px" }}>
@@ -32,7 +72,7 @@ const ProductDescription = ({ selectedProduct, setSelectedQuantity,selectedQuant
           <h4>Price: {selectedProduct.price}$</h4>
           <p>{selectedProduct.description}</p>
           <button
-          onClick={handleAddToCart}
+            onClick={handleAddToCart}
             className="click-effect"
             style={{
               background: "black",
