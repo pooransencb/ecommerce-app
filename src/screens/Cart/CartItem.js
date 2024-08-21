@@ -7,38 +7,70 @@ const CartItem = ({
   selectedQuantity,
   setSelectedQuantity,
 }) => {
-  const increaseQuantity = () => {
-    setSelectedQuantity(selectedQuantity+1)
+  const handleQuantity = (increase) => {
     const checkProductAlreadyInCart = cartProduct.find(
       (item) => cartData.id === item.id
     );
-
-    if (checkProductAlreadyInCart) {
+    if (checkProductAlreadyInCart.quantity !== 1 || increase===true) {
+      setSelectedQuantity(
+        increase ? selectedQuantity + 1 : selectedQuantity - 1
+      );
       const updateCartData = cartProduct.map((item) => {
         if (cartData.id === item.id) {
           return {
             ...item,
-            quantity: item.quantity + 1,
+            quantity: increase === true ? item.quantity + 1 : item.quantity - 1,
           };
         } else {
           return item;
         }
       });
       setCartProduct(updateCartData);
-    } else {
-      setCartProduct([
-        ...cartProduct,
-        {
-          ...cartData,
-          quantity: 1,
-        },
-      ]);
     }
   };
 
-  const decreaseQuantity = () =>{
+  const increaseQuantity = () => {
+    setSelectedQuantity(selectedQuantity + 1);
+    const updateCartData = cartProduct.map((item) => {
+      if (cartData.id === item.id) {
+        return {
+          ...item,
+          quantity: item.quantity + 1,
+        };
+      } else {
+        return item;
+      }
+    });
+    setCartProduct(updateCartData);
+  };
 
-  }
+  const decreaseQuantity = () => {
+    const checkProductAlreadyInCart = cartProduct.find(
+      (item) => cartData.id === item.id
+    );
+
+    if (checkProductAlreadyInCart.quantity !== 1) {
+      setSelectedQuantity(selectedQuantity - 1);
+      const updateCartData = cartProduct.map((item) => {
+        if (cartData.id === item.id) {
+          return {
+            ...item,
+            quantity: item.quantity - 1,
+          };
+        } else {
+          return item;
+        }
+      });
+      setCartProduct(updateCartData);
+    }
+  };
+
+  const deleteProduct = () => {
+    const updatedCartData = cartProduct.filter(
+      (item) => cartData.id !== item.id
+    );
+    setCartProduct(updatedCartData);
+  };
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
       <div
@@ -50,10 +82,12 @@ const CartItem = ({
           padding: "10px",
         }}
       >
-        <div style={{display:'flex',flexDirection:'column', width:'200px'}}>
-        <img src={cartData.image} style={{ height: "60px", width: "60px" }} />
-        {cartData.title.slice(0,20)}...
-        <h5>${cartData.price}</h5>
+        <div
+          style={{ display: "flex", flexDirection: "column", width: "200px" }}
+        >
+          <img src={cartData.image} style={{ height: "60px", width: "60px" }} />
+          {cartData.title.slice(0, 20)}...
+          <h5>${cartData.price}</h5>
         </div>
         <div
           style={{
@@ -63,7 +97,7 @@ const CartItem = ({
             justifyContent: "space-between",
           }}
         >
-          <span>x</span>
+          <span onClick={deleteProduct}>x</span>
           <button
             style={{
               display: "flex",
@@ -78,7 +112,9 @@ const CartItem = ({
               +
             </span>
             {cartData.quantity}
-            <span onClick={decreaseQuantity} style={{ cursor: "pointer" }}>-</span>
+            <span onClick={decreaseQuantity} style={{ cursor: "pointer" }}>
+              -
+            </span>
           </button>
         </div>
       </div>
